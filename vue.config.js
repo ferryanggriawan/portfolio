@@ -1,15 +1,15 @@
 module.exports = {
   pwa: {
-    name: 'Ferry Anggriawan'
+    name: "Ferry Anggriawan"
   },
 
-  publicPath: undefined,
-  outputDir: 'docs',
-  assetsDir: undefined,
+  publicPath: process.env.NODE_ENV === "production" ? "docs/" : "/",
+  outputDir: "docs",
+  assetsDir: "",
   runtimeCompiler: true,
   productionSourceMap: false,
   parallel: undefined,
   css: {
     modules: true
   }
-}
+};
