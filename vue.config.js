@@ -8,8 +8,7 @@ module.exports = {
   assetsDir: "",
   runtimeCompiler: true,
   productionSourceMap: false,
-  parallel: undefined,
   css: {
-    modules: true
+    requireModuleExtension: true
   }
 };
