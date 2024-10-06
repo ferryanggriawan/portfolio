@@ -8,9 +8,8 @@ services:
     ports:
       - '3000:3000'
     networks:
-      - ferryhub
-      - default
+      - nginx_proxy_manager_default
 
 networks:
-  ferryhub:
+  nginx_proxy_manager_default:
     external: true
