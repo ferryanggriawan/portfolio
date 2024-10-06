@@ -1,9 +1,16 @@
 services:
-  web-apps:
+  frontend:
     image: frontend
     build:
       context: ../../src/frontend
       args:
         BUILD: build-stag
     ports:
-      - '3001:3000'
+      - '3000:3000'
+    networks:
+      - ferryhub
+      - default
+
+networks:
+  ferryhub:
+    external: true
