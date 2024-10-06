@@ -25,8 +25,10 @@ services:
       DATABASE_PORT: 5432
       DATABASE_NAME: strapi
       DATABASE_USERNAME: strapi
-      DATABASE_PASSWORD: strapi
+      DATABASE_PASSWORD_FILE: /run/secrets/db_password
       DATABASE_SCHEMA: 'public'
+    secrets:
+      - db_password
     volumes:
       - ../../src/strapi/config:/opt/app/config
       - ../../src/strapi/src:/opt/app/src
@@ -48,8 +50,10 @@ services:
     image: postgres:12.0-alpine
     environment:
       POSTGRES_USER: strapi
-      POSTGRES_PASSWORD: strapi
+      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
       POSTGRES_DB: strapi
+    secrets:
+       - db_password
     volumes:
       - strapi-data:/var/lib/postgresql/data/ #using a volume
       #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
@@ -65,3 +69,7 @@ volumes:
 networks:
   nginx_proxy_manager_default:
     external: true
+
+secrets:
+  db_password:
+    file: ./secrets/db_password.txt
