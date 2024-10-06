@@ -1,0 +1,9 @@
+services:
+  web-apps:
+    image: frontend
+    build:
+      context: ../../src/frontend
+      args:
+        BUILD: build-stag
+    ports:
+      - '3001:3000'
