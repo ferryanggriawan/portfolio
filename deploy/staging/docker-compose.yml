@@ -15,7 +15,7 @@ services:
     image: ghost:5-alpine
     restart: always
     ports:
-      - 8080:2368
+      - "8080:2368"
     environment:
       database__client: mysql
       database__connection__host: db
@@ -29,6 +29,8 @@ services:
       - ghost:/var/lib/ghost/content
     networks:
       - nginx_proxy_manager_default
+    depends_on:
+      - db
 
   db:
     image: mysql:8.0
@@ -40,6 +42,10 @@ services:
       MYSQL_PASSWORD_FILE: /run/secrets/db_password
     secrets:
       - db_password
+    ports:
+      - "3306:3306"
+    expose:
+      - 3306
     volumes:
       - db:/var/lib/mysql
     networks:
