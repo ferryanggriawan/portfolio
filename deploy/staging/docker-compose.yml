@@ -22,6 +22,8 @@ services:
       database__connection__user: root
       database__connection__password: /run/secrets/db_password
       database__connection__database: ghost
+      server__host: 0.0.0.0
+      server__port: 2368
       NODE_ENV: development
     secrets:
       - db_password
