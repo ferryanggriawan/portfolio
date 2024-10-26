@@ -17,7 +17,7 @@ services:
     ports:
       - "2368:2368"
     environment:
-      url: 0.0.0:2368
+      url: http://0.0.0.0:2368/
       database__client: mysql
       database__connection__host: db
       database__connection__user: root
