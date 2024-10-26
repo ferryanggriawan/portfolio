@@ -6,65 +6,41 @@ services:
       args:
         BUILD: build-stag
     ports:
-      - '3000:3000'
+      - "3000:3000"
     networks:
       - nginx_proxy_manager_default
 
-  strapi:
-    container_name: strapi
-    build: 
-      context: ../../src/strapi
-      args:
-        START: start-stag
-    image: strapi:latest
-    restart: unless-stopped
-    env_file: ../../src/strapi/.env
-    environment:
-      DATABASE_CLIENT: postgres
-      DATABASE_HOST: strapiDB
-      DATABASE_PORT: 5432
-      DATABASE_NAME: strapi
-      DATABASE_USERNAME: strapi
-      DATABASE_PASSWORD_FILE: /run/secrets/db_password
-      DATABASE_SCHEMA: 'public'
-    secrets:
-      - db_password
-    volumes:
-      - ../../src/strapi/config:/opt/app/config
-      - ../../src/strapi/src:/opt/app/src
-      - ../../src/strapi/package.json:/opt/package.json
-      - ../../src/strapi/.env:/opt/app/.env
-      - ../../src/strapi/public/uploads:/opt/app/public/uploads
+  ghost:
+    container_name: ghost
+    image: ghost:5-alpine
+    restart: always
     ports:
-      - "1337:1337"
+      - 8080:2368
+    environment:
+      database__client: mysql
+      database__connection__host: db
+      database__connection__user: root
+      database__connection__password_file: /run/secrets/db_password
+      database__connection__database: ghost
+      NODE_ENV: development
+    volumes:
+      - ghost:/var/lib/ghost/content
     networks:
       - nginx_proxy_manager_default
-    depends_on:
-      - strapiDB
 
-  strapiDB:
-    container_name: strapiDB
-    platform: linux/amd64 #for platform error on Apple M1 chips
-    restart: unless-stopped
-    env_file: ../../src/strapi/.env
-    image: postgres:12.0-alpine
+  db:
+    image: mysql:8.0
+    restart: always
     environment:
-      POSTGRES_USER: strapi
-      POSTGRES_PASSWORD_FILE: /run/secrets/db_password
-      POSTGRES_DB: strapi
-    secrets:
-       - db_password
+      MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_password
     volumes:
-      - strapi-data:/var/lib/postgresql/data/ #using a volume
-      #- ./data:/var/lib/postgresql/data/ # if you want to use a bind folder
-
-    ports:
-      - "5432:5432"
+      - db:/var/lib/mysql
     networks:
       - nginx_proxy_manager_default
 
 volumes:
-  strapi-data:
+  ghost:
+  db:
 
 networks:
   nginx_proxy_manager_default:
