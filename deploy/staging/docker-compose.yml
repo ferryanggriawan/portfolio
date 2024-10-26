@@ -17,7 +17,7 @@ services:
     ports:
       - "2368:2368"
     environment:
-      url: https://blog.ferryhub.info
+      url: http://82.112.236.83:2368
       database__client: mysql
       database__connection__host: db
       database__connection__user: root
@@ -25,7 +25,7 @@ services:
       database__connection__database: ghost
       server__host: 0.0.0.0
       server__port: 2368
-      admin__url: https://g-panel.ferryhub.info
+      admin__url: http://82.112.236.83:2368
       NODE_ENV: development
     secrets:
       - db_password
