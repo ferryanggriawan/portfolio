@@ -23,6 +23,8 @@ services:
       database__connection__password_file: /run/secrets/db_password
       database__connection__database: ghost
       NODE_ENV: development
+    secrets:
+      - db_password
     volumes:
       - ghost:/var/lib/ghost/content
     networks:
@@ -33,6 +35,8 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_password
+    secrets:
+      - db_password
     volumes:
       - db:/var/lib/mysql
     networks:
