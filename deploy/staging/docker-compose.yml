@@ -18,11 +18,11 @@ services:
       - "8080:2368"
     environment:
       database__client: mysql
-      database__connection__host: db
+      database__connection__host: db:3306
       database__connection__user: root
-      database__connection__password_file: /run/secrets/db_password
+      database__connection__password_FILE: /run/secrets/db_password
+      database__connection__password: /run/secrets/db_password
       database__connection__database: ghost
-      NODE_ENV: development
     secrets:
       - db_password
     volumes:
