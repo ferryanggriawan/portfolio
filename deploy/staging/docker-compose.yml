@@ -35,6 +35,9 @@ services:
     restart: always
     environment:
       MYSQL_ROOT_PASSWORD_FILE: /run/secrets/db_password
+      MYSQL_DATABASE: ghost
+      MYSQL_USER: root
+      MYSQL_PASSWORD_FILE: /run/secrets/db_password
     secrets:
       - db_password
     volumes:
