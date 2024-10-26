@@ -15,8 +15,9 @@ services:
     image: ghost:5-alpine
     restart: always
     ports:
-      - "8080:2368"
+      - "2368:2368"
     environment:
+      url: 0.0.0:2368
       database__client: mysql
       database__connection__host: db
       database__connection__user: root
