@@ -21,11 +21,9 @@ services:
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
-      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
-      - "--web.console.html=/usr/share/prometheus/consoles"
       - "--web.listen-address=:9090"
     ports:
-      - "9090:9090" # Ekspos port Prometheus
+      - "9090:9090"
     restart: always
 
   node-exporter:
