@@ -20,7 +20,7 @@ jobs:
         with:
           host: 172.104.51.79
           username: root
-          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          key: "-----BEGIN OPENSSH PRIVATE KEY-----b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZWQyNTUxOQAAACCUUEUrMRq6M/O6iZILJopQ4bfJN9pL6MRRp570iyEJjwAAAJiJJb9JiSW/SQAAAAtzc2gtZWQyNTUxOQAAACCUUEUrMRq6M/O6iZILJopQ4bfJN9pL6MRRp570iyEJjwAAAEBoNbh56fYTHid0aEp/j2Ys7oBv4JTlOF14iE1rOqOF3JRQRSsxGroz87qJkgsmilDht8k32kvoxFGnnvSLIQmPAAAAFGZlcnJ5YTE5OTdAZ21haWwuY29tAQ==-----END OPENSSH PRIVATE KEY-----"
           port: 22 # Port SSH default
 
           # ======================================================
