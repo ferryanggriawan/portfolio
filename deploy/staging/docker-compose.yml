@@ -17,7 +17,7 @@ services:
       # Memuat file konfigurasi yang sudah kita buat
       - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
       # Menyimpan data time-series secara persisten
-      - ./monitoring/prometheus_data:/prometheus
+      - prometheus_data:/prometheus
     command:
       - "--config.file=/etc/prometheus/prometheus.yml"
       - "--storage.tsdb.path=/prometheus"
