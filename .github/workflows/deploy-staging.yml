@@ -18,8 +18,8 @@ jobs:
       - name: Deploy using SSH Action
         uses: appleboy/ssh-action@v1.0.1 # Action populer untuk koneksi SSH
         with:
-          host: 172.104.51.79
-          username: root
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22 # Port SSH default
 
