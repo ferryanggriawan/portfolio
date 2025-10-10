@@ -35,11 +35,12 @@ jobs:
               IMAGE_TAG="latest"
             fi
 
-            IMAGE_PATH="ghcr.io/ferryanggriawan/portfolio/frontend:$IMAGE_TAG"
-
-            docker pull $IMAGE_PATH
             docker stop frontend || true
             docker rm frontend || true
+
+            IMAGE_PATH="ghcr.io/ferryanggriawan/portfolio/frontend:latest"
+
+            docker pull $IMAGE_PATH
 
             echo "Starting new container..."
             docker run -d --name frontend -p 8080:3000 $IMAGE_PATH
