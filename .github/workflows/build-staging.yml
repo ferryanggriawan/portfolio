@@ -67,17 +67,11 @@ jobs:
             # 3. Retag image dengan tag SHA unik
             echo "Tagging ${LOCAL_IMAGE} as ${GHCR_IMAGE}:${{ env.IMAGE_TAG }}"
             docker tag ${LOCAL_IMAGE} ${GHCR_IMAGE}:${{ env.IMAGE_TAG }}
+            docker tag ${LOCAL_IMAGE} ${GHCR_IMAGE}:latest
             
             # 4. Push image ke GHCR
             echo "Pushing ${GHCR_IMAGE}:${{ env.IMAGE_TAG }}..."
             docker push ${GHCR_IMAGE}:${{ env.IMAGE_TAG }}
             docker push ${GHCR_IMAGE}:latest
-            
-            # 5. Jika berada di branch utama, tambahkan tag 'latest'
-            if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
-              echo "Tagging ${LOCAL_IMAGE} as ${GHCR_IMAGE}:latest"
-              docker tag ${LOCAL_IMAGE} ${GHCR_IMAGE}:latest
-              docker push ${GHCR_IMAGE}:latest
-            fi
             
           done
