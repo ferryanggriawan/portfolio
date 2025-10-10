@@ -1,0 +1,25 @@
+name: CI with Default Runner
+
+on: [push]
+
+jobs:
+  build:
+    # This line tells GitHub to use a managed, GitHub-hosted runner.
+    # 'ubuntu-latest' is the most common and often the default choice.
+    runs-on: ubuntu-latest
+
+    steps:
+      # Step 1: Check out the repository code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # Step 2: Run a simple command on the virtual environment
+      - name: Show directory contents
+        run: ls -al
+
+      # Step 3: Example build or test step
+      - name: Run a build script
+        run: |
+          echo "Building application..."
+          npm install
+          npm test
