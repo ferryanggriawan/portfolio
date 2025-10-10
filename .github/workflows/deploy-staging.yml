@@ -6,7 +6,7 @@ on:
 jobs:
   deploy:
     runs-on: ubuntu-latest
-    environment: ${{ github.event.inputs.target_environment }}
+    environment: staging
 
     steps:
       - name: Checkout Repository
