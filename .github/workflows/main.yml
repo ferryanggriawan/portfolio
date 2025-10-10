@@ -4,8 +4,8 @@ on: [push]
 
 jobs:
   build:
-    # This line tells GitHub to use a managed, GitHub-hosted runner.
-    # 'ubuntu-latest' is the most common and often the default choice.
+    # This line tells GitHub to use a managed, GitHub-hosted runner
+    # 'ubuntu-latest' is the most common and often the default choice
     runs-on: ubuntu-latest
 
     steps:
