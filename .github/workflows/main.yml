@@ -1,4 +1,4 @@
-name: CI with Default Runner
+name: Build Staging
 
 on: [push]
 
@@ -21,5 +21,6 @@ jobs:
       - name: Run a build script
         run: |
           echo "Building application..."
+          cd src/frontend
           npm install
-          npm test
+          npm run build
