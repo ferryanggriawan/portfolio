@@ -52,7 +52,7 @@ jobs:
           # PENTING: Daftar SERVICE_NAMES harus sesuai dengan nama layanan
           # yang ada di dalam file 'docker-compose.yml' Anda.
           # Ganti 'web' dan 'api' dengan nama layanan Anda yang sebenarnya.
-          SERVICE_NAMES=("web" "api")
+          SERVICE_NAMES=("frontend")
 
           echo "Processing services: ${SERVICE_NAMES[*]}"
 
