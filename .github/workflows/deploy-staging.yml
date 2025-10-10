@@ -1,0 +1,47 @@
+name: Deploy Staging
+
+on:
+  workflow_dispatch:
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    environment: ${{ github.event.inputs.target_environment }}
+
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      # ======================================================
+      # STEP 1: SETUP SSH AGENT & CONNECT TO SERVER
+      # ======================================================
+      - name: Deploy using SSH Action
+        uses: appleboy/ssh-action@v1.0.1 # Action populer untuk koneksi SSH
+        with:
+          host: ${{ secrets.DEPLOY_HOST }}
+          username: ${{ secrets.DEPLOY_USER }}
+          key: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22 # Port SSH default
+
+          # ======================================================
+          # STEP 2: RUN COMMANDS ON THE REMOTE SERVER
+          # ======================================================
+          script: |
+            # 1. Navigasi ke direktori aplikasi Anda di server
+            # Ganti dengan path direktori Anda yang sebenarnya
+            cd /var/www/portfolio
+
+            # 2. Login ke GitHub Container Registry (GHCR) di server remote
+            # Memastikan server bisa pull image dari GHCR
+            echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
+
+            # 3. Pull image terbaru dan jalankan ulang Docker Compose
+            # 'docker compose pull' menarik image terbaru
+            # 'docker compose up -d' menjalankan kontainer
+            docker compose pull
+            docker compose up -d
+
+            # 4. Cleanup: Menghapus image lama yang tidak terpakai
+            docker image prune -f
+
+            echo "Deployment successful for ${{ github.sha }}"
