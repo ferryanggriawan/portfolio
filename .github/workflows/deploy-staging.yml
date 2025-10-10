@@ -44,7 +44,7 @@ jobs:
             echo "Starting new container..."
             docker run -d \
               --name frontend \
-              -p 8080:80 \
+              -p 8080:3000 \
               $IMAGE_PATH
 
             # 4. Cleanup: Menghapus image lama yang tidak terpakai
