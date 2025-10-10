@@ -38,9 +38,10 @@ jobs:
       # STEP 2: BUILD SEMUA IMAGE DENGAN DOCKER COMPOSE
       # ======================================================
       - name: Docker Compose Build Images
-        context: ./deploy/staging
         # Menggunakan --no-cache memastikan build selalu baru
-        run: docker compose build --no-cache
+        run: |
+          cd deploy/staging
+          docker compose build --no-cache
 
       # ======================================================
       # STEP 3: TAG DAN PUSH SEMUA IMAGE KE GHCR
