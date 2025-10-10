@@ -38,6 +38,7 @@ jobs:
       # STEP 2: BUILD SEMUA IMAGE DENGAN DOCKER COMPOSE
       # ======================================================
       - name: Docker Compose Build Images
+        context: ./deploy/staging
         # Menggunakan --no-cache memastikan build selalu baru
         run: docker compose build --no-cache
 
