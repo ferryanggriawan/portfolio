@@ -36,8 +36,7 @@ jobs:
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
             # 3. Pull image terbaru dan jalankan ulang Docker compose
-            GHCR_IMAGE="ghcr.io/ferryanggriawan/portfolio/frontend"
-            IMAGE_PATH="${{ GHCR_IMAGE }}:latest"
+            IMAGE_PATH="ghcr.io/ferryanggriawan/portfolio/frontend:latest"
 
             docker pull $IMAGE_PATH
             docker stop frontend || true
