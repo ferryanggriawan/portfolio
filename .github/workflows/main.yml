@@ -2,27 +2,78 @@ name: Build Staging
 
 on:
   push:
-    tags: [ '*.*.*' ]
+    tags: ["*.*.*"]
+
+env:
+  REGISTRY: ghcr.io
+  REPOSITORY: ${{ github.repository }}
+  IMAGE_TAG: ${{ github.sha }}
 
 jobs:
   build:
-    # This line tells GitHub to use a managed, GitHub-hosted runner
-    # 'ubuntu-latest' is the most common and often the default choice
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      packages: write
 
     steps:
-      # Step 1: Check out the repository code
-      - name: Checkout code
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # Step 2: Run a simple command on the virtual environment
-      - name: Show directory contents
-        run: ls -al
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
 
-      # Step 3: Example build or test step
-      - name: Run a build script
+      # ======================================================
+      # STEP 1: LOGIN KE CONTAINER REGISTRY
+      # ======================================================
+      - name: Log in to GitHub Container Registry (GHCR)
+        uses: docker/login-action@v3
+        with:
+          registry: ${{ env.REGISTRY }}
+          username: ${{ github.actor }}
+          # Menggunakan GITHUB_TOKEN bawaan untuk autentikasi
+          password: ${{ secrets.GITHUB_TOKEN }}
+
+      # ======================================================
+      # STEP 2: BUILD SEMUA IMAGE DENGAN DOCKER COMPOSE
+      # ======================================================
+      - name: Docker Compose Build Images
+        # Menggunakan --no-cache memastikan build selalu baru
+        run: docker compose build --no-cache
+
+      # ======================================================
+      # STEP 3: TAG DAN PUSH SEMUA IMAGE KE GHCR
+      # ======================================================
+      - name: Tag and Push Images
+        shell: bash
         run: |
-          echo "Building application..."
-          cd src/frontend
-          npm install
-          npm run build
+          # PENTING: Daftar SERVICE_NAMES harus sesuai dengan nama layanan
+          # yang ada di dalam file 'docker-compose.yml' Anda.
+          # Ganti 'web' dan 'api' dengan nama layanan Anda yang sebenarnya.
+          SERVICE_NAMES=("web" "api")
+
+          echo "Processing services: ${SERVICE_NAMES[*]}"
+
+          for SERVICE in "${SERVICE_NAMES[@]}"; do
+            # 1. Tentukan nama image lokal yang dibuat oleh Compose
+            LOCAL_IMAGE="${SERVICE}"
+            
+            # 2. Tentukan nama image penuh untuk GHCR
+            GHCR_IMAGE="${{ env.REGISTRY }}/${{ env.REPOSITORY }}/${SERVICE}"
+            
+            # 3. Retag image dengan tag SHA unik
+            echo "Tagging ${LOCAL_IMAGE} as ${GHCR_IMAGE}:${{ env.IMAGE_TAG }}"
+            docker tag ${LOCAL_IMAGE} ${GHCR_IMAGE}:${{ env.IMAGE_TAG }}
+            
+            # 4. Push image ke GHCR
+            echo "Pushing ${GHCR_IMAGE}:${{ env.IMAGE_TAG }}..."
+            docker push ${GHCR_IMAGE}:${{ env.IMAGE_TAG }}
+            
+            # 5. Jika berada di branch utama, tambahkan tag 'latest'
+            if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
+              echo "Tagging ${LOCAL_IMAGE} as ${GHCR_IMAGE}:latest"
+              docker tag ${LOCAL_IMAGE} ${GHCR_IMAGE}:latest
+              docker push ${GHCR_IMAGE}:latest
+            fi
+            
+          done
