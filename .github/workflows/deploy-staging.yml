@@ -35,7 +35,7 @@ jobs:
               IMAGE_TAG="latest"
             fi
 
-            IMAGE_PATH="ghcr.io/ferryanggriawan/portfolio/frontend:${{ TAG }}"
+            IMAGE_PATH="ghcr.io/ferryanggriawan/portfolio/frontend:${{ IMAGE_TAG }}"
 
             docker pull $IMAGE_PATH
             docker stop frontend || true
