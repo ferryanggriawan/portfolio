@@ -1,6 +1,7 @@
 name: Build Staging
 
 on:
+  workflow_dispatch:
   push:
     tags: ["*.*.*"]
 
