@@ -14,4 +14,4 @@ scrape_configs:
     # Dalam konteks Node Exporter dengan --net=host, gunakan IP Docker Host.
     # Untuk kesederhanaan, kita anggap dijalankan di host yang sama (127.0.0.1)
     static_configs:
-      - targets: ["127.0.0.1:9100"]
+      - targets: ["172.104.51.79:9100"]
