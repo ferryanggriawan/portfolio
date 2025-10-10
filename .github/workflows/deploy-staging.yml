@@ -42,10 +42,7 @@ jobs:
             docker rm frontend || true
 
             echo "Starting new container..."
-            docker run -d \
-              --name frontend \
-              -p 8080:3000 \
-              $IMAGE_PATH
+            docker run -d --name frontend -p 8080:3000 $IMAGE_PATH
 
             # 4. Cleanup: Menghapus image lama yang tidak terpakai
             docker image prune -f
