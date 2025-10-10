@@ -10,6 +10,38 @@ services:
     networks:
       - nginx_proxy_manager
 
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    volumes:
+      # Memuat file konfigurasi yang sudah kita buat
+      - ./monitoring/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+      # Menyimpan data time-series secara persisten
+      - ./monitoring/prometheus_data:/prometheus
+    command:
+      - "--config.file=/etc/prometheus/prometheus.yml"
+      - "--storage.tsdb.path=/prometheus"
+      - "--web.console.libraries=/usr/share/prometheus/console_libraries"
+      - "--web.console.html=/usr/share/prometheus/consoles"
+      - "--web.listen-address=:9090"
+    ports:
+      - "9090:9090" # Ekspos port Prometheus
+    restart: always
+
+  node-exporter:
+    image: quay.io/prometheus/node-exporter:latest
+    container_name: node_exporter
+    network_mode: host
+    pid: host
+    volumes:
+      - "/:/host:ro,rslave"
+    command:
+      - "--path.rootfs=/host"
+    restart: always
+
 networks:
   nginx_proxy_manager:
     external: true
+
+volumes:
+  prometheus_data: {}

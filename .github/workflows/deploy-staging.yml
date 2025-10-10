@@ -12,24 +12,16 @@ jobs:
       - name: Checkout Repository
         uses: actions/checkout@v4
 
-      # ======================================================
-      # STEP 1: SETUP SSH AGENT & CONNECT TO SERVER
-      # ======================================================
       - name: Deploy using SSH Action
-        uses: appleboy/ssh-action@v1.0.1 # Action populer untuk koneksi SSH
+        uses: appleboy/ssh-action@v1.0.1
         with:
           host: ${{ secrets.DEPLOY_HOST }}
           username: ${{ secrets.DEPLOY_USER }}
           key: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22 # Port SSH default
-
-          # ======================================================
-          # STEP 2: RUN COMMANDS ON THE REMOTE SERVER
-          # ======================================================
+          port: 22
           script: |
             echo "${{ secrets.GITHUB_TOKEN }}" | docker login ghcr.io -u ${{ github.actor }} --password-stdin
 
-            # 3. Pull image terbaru dan jalankan ulang Docker compose
             echo "IMAGE_TAG=${{ github.sha }}"
             if [[ "${{ github.ref }}" == "refs/heads/main" ]]; then
               IMAGE_TAG="latest"
@@ -45,7 +37,6 @@ jobs:
             echo "Starting new container..."
             docker run -d --name frontend -p 8080:3000 $IMAGE_PATH
 
-            # 4. Cleanup: Menghapus image lama yang tidak terpakai
             docker image prune -f
 
             echo "Deployment successful for ${{ github.sha }}"
