@@ -15,7 +15,7 @@
                 color="primary"
                 class="text-h6 font-weight-black px-3 py-5"
               >
-                Software Engineer
+                Software Engineer Man
               </v-chip>
             </div>
 
