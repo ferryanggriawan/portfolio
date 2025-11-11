@@ -51,7 +51,9 @@ jobs:
       - name: Tag and Push Images
         shell: bash
         run: |
-          SERVICE_NAMES=("frontend" "prom/prometheus" "node-exporter")
+          SERVICE_NAMES=("frontend" "prometheus" "node-exporter")
+
+          docker images
 
           echo "Processing services: ${SERVICE_NAMES[*]}"
 
