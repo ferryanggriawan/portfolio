@@ -51,7 +51,7 @@ jobs:
       - name: Tag and Push Images
         shell: bash
         run: |
-          SERVICE_NAMES=("frontend" "prometheus" "node-exporter")
+          SERVICE_NAMES=("frontend")
 
           docker images
 
