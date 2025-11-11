@@ -35,7 +35,7 @@ jobs:
               docker stop ${SERVICE} || true
               docker rm ${SERVICE} || true
 
-              IMAGE_PATH="ghcr.io/ferryanggriawan/portfolio/${{ SERVICE }}:latest"
+              IMAGE_PATH="ghcr.io/ferryanggriawan/portfolio/${SERVICE}:latest"
 
               docker pull $IMAGE_PATH
 
