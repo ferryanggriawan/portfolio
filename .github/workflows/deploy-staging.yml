@@ -27,15 +27,22 @@ jobs:
               IMAGE_TAG="latest"
             fi
 
-            docker stop frontend || true
-            docker rm frontend || true
+            ls -a
 
-            IMAGE_PATH="ghcr.io/ferryanggriawan/portfolio/frontend:latest"
+            SERVICE_NAMES=("frontend", "prometheus", "node-exporter")
 
-            docker pull $IMAGE_PATH
+            for SERVICE in "${SERVICE_NAMES[@]}"; do
+              docker stop ${SERVICE} || true
+              docker rm ${SERVICE} || true
 
-            echo "Starting new container..."
-            docker run -d --name frontend -p 8080:3000 $IMAGE_PATH
+              IMAGE_PATH="ghcr.io/ferryanggriawan/portfolio/${{ SERVICE }}:latest"
+
+              docker pull $IMAGE_PATH
+
+              echo "Starting new container..."
+              docker run -d --name ${SERVICE} $IMAGE_PATH
+
+            done
 
             docker image prune -f
 

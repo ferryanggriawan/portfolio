@@ -1,17 +1,11 @@
 global:
-  scrape_interval: 15s # Interval default scraping
+  scrape_interval: 15s
 
 scrape_configs:
   - job_name: "prometheus"
-    # Memantau server Prometheus itu sendiri
     static_configs:
       - targets: ["localhost:9090"]
 
   - job_name: "node_exporter"
-    # Memantau Node Exporter yang berjalan di host
-    # 'node-exporter:9100' berfungsi karena mereka berada di network Docker Compose yang sama
-    # Namun, karena Node Exporter dipasang dengan host network, kita harus menggunakan IP host atau hostname.
-    # Dalam konteks Node Exporter dengan --net=host, gunakan IP Docker Host.
-    # Untuk kesederhanaan, kita anggap dijalankan di host yang sama (127.0.0.1)
     static_configs:
       - targets: ["172.104.51.79:9100"]
