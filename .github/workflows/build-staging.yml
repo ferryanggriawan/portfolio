@@ -43,7 +43,7 @@ jobs:
         # Menggunakan --no-cache memastikan build selalu baru
         run: |
           cd deploy/staging
-          docker compose build --no-cache
+          docker compose build --no-cache prometheus node-exporter frontend
 
       # ======================================================
       # STEP 3: TAG DAN PUSH SEMUA IMAGE KE GHCR
